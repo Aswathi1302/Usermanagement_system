@@ -1,0 +1,114 @@
+{%  extends "userapp/base.html"%}
+
+{% block body %}
+<h3 class="m-4">All users</h3>
+                <div class="row">
+                    <div class="col-12">
+                        {% if userapp %}
+                        <div class="card border-dark ms-4 me-4 mb-4">
+                            <div class="card-header">
+                                <i class="fa-solid fa-list fa-lg"></i>User Records
+                            </div>
+                            <div class="card-body">
+                              <p class="card-text">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">Id</th>
+                                            <th scope="col">First name</th>
+                                            <th scope="col">Last name</th>
+                                            <th scope="col">Date of Birth</th>
+                                            <th scope="col">Address</th>
+                                            <th scope="col">Action</th>
+            
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                         {% for User in userapp %}
+                                         <tr>
+                                            <td>{{User.No}}</td>
+                                            <td>{{User.first_name}}</td>
+                                            <td>{{User.last_name}}</td>
+                                            <td>{{User.DOB}}</td>
+                                            <td>{{User.address}}</td>
+                                            <td>
+                                              <button type="button " class="btn btn-succdss me-1" href="{% url 'view_user' user.id %}" data-bs-toggle="modal" data-bs-target="#myModal{{user.id}}">
+                                                <i class="fa-solid fa-circle-info fa-lg"></i>
+                                                </button>
+
+                                                <!---------------Model-->
+                                                <div class="modal" id="myModal{{user.id}}" tabindex="-1" aria-hidden="true">
+                                                  <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                      <div class="modal-header">
+                                                        <h5 class="modal-title">
+                                                          User:{{User.first_name}} {{User.last_name}} 
+                                                        </h5>
+                                                        <div class="modal-body">
+                                                          <ul class="list-unstyled">
+                                                            <li>User No:<strong>{{User.No}}</strong> </li>
+                                                            <li>First name:<strong>{{User.first_name}}</strong> </li>
+                                                            <li>Last name:<strong>{{User.last_name}}</strong> </li>
+                                                            <li>Date of birth:<strong>{{User.DOB}}</strong> </li>
+                                                            <li>Address:<strong>{{User.address}}</strong> </li>
+                                                          </ul>
+                                          
+                                                        </div>
+                                                       
+                                                        
+                                                        </div>
+
+                                                        
+                                                    </div>
+                                                  </div>
+                                                </div>
+
+                                                <a class="btn-warning me-1" href="{% url 'edit' user.id %}">
+                                                  <i class="fa-solid fa-pen-to-square fa-lg"></i>
+                                                </a>
+
+                                             <button type="button" class="btn btn-danger" data-bs-toogle="modal" data-bs-target="#delete{{user.id}}">
+                                              <i class="fa-solid fa-trash fa-lg"></i>
+                                             </button>
+
+                                             <!------------Model delete-------->
+
+                                             <div class="modal" id="delete{{user.id}}" tabindex="-1" aria-hidden="true">
+                                              <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                  <div class="modal-header">
+                                                    <h5 class="modal-title">
+                                                      User: {{ user.first_name }} {{ user.last_name }} 
+                                                    </h5>
+                                                    <div class="modal-body">
+                                                      <p>Are you sure want to delete ???</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                      <form action="{% url 'delete' user.id %}" method="POST">
+                                                        {% csrf_token %}
+                                                        <input type="submit" class="btn btn-primary" value="delete">
+                                                        <button type="button " class="btn btn-secondary" data-bs-dismiss="model">cancel</button>
+                                                      </form>
+                                                    </div>
+                                                
+                                                    </div> 
+                                                </div>
+                                              </div>
+                                            </div>
+                                            </td>
+                                         </tr>
+                                         {% endfor%}
+                                        </tbody>
+                                      </table>
+                                </div>
+                              </p>
+                            </div>
+                          </div>
+                            
+                        {% else %} 
+                       
+                        {% endif %}
+                          
+                    </div>
+{% endblock %}
